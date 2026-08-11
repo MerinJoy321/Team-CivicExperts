@@ -41,7 +41,16 @@ Inside your team folder, create a `README.md` containing at least the following 
 - Problem Statement
 - Solution
 - Features
+- Agent Workflow / Flowchart
+- Agent Architecture
 - Tech Stack
+     - Frontend
+     - Backend
+     - AI / LLM
+     - Agent Framework
+     - Tools / APIs
+     - Database
+- Tech Stack 
 - Setup / How to Run
 - Repository Link *(Optional)*
 - Demo Link *(Optional)*
