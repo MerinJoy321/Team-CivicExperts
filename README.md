@@ -3,7 +3,7 @@
 ## Team members
 ### >Aibel Bejoy - S3 CS DS
 ### >Merin Joy - S5 CS C
-### >Sijil - S3 CS DS
+### >Sijil Saju - S3 CS DS
 # CivicPilot — From Eligibility to Application Readiness
 
 CivicPilot is an **agentic AI welfare-navigation system** for Indian citizens. A user describes their situation in plain language, and CivicPilot autonomously discovers relevant government welfare schemes, verifies eligibility against authoritative criteria, traces the evidence and document requirements needed to prove that eligibility, identifies prerequisites, finds the official application portal, and prepares a structured application draft.
