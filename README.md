@@ -215,7 +215,197 @@ Plan → Search → Observe → Verify → Identify Dependencies
 ---
 
 ## 6. Agent Architecture
+Agent Architecture
+                         ┌──────────────────┐
+                         │      User        │
+                         │ Plain-language   │
+                         │     Goal/Input   │
+                         └────────┬─────────┘
+                                  ↓
+                         ┌──────────────────┐
+                         │   Intake Agent   │
+                         └────────┬─────────┘
+                                  ↓
+                         ┌──────────────────┐
+                         │  Planner Agent   │
+                         └────────┬─────────┘
+                                  ↓
+                    ┌──────────────────────────┐
+                    │ Custom Python            │
+                    │ Agent Orchestrator       │
+                    │                          │
+                    │ Plan → Act → Observe →   │
+                    │ Verify → Replan          │
+                    └────────────┬─────────────┘
+                                 │
+             ┌───────────────────┼───────────────────┐
+             ↓                   ↓                   ↓
+      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+      │   Tavily    │     │ Jina Reader │     │  ChromaDB   │
+      │ Web Search  │     │ Web/PDF Read│     │ RAG/Memory  │
+      └─────────────┘     └─────────────┘     └─────────────┘
+             │                   │                   │
+             └───────────────────┼───────────────────┘
+                                 ↓
+                         ┌──────────────────┐
+                         │ Groq LLM         │
+                         │ GPT-OSS Models   │
+                         └────────┬─────────┘
+                                  ↓
+                    ┌──────────────────────────┐
+                    │ Eligibility Verifier     │
+                    └────────────┬─────────────┘
+                                 ↓
+                    ┌──────────────────────────┐
+                    │ Readiness / Dependency   │
+                    │ Analysis                  │
+                    └────────────┬─────────────┘
+                                 ↓
+                    ┌──────────────────────────┐
+                    │ Application Preparation   │
+                    │ + Official Portal         │
+                    └────────────┬─────────────┘
+                                 ↓
+                         ┌──────────────────┐
+                         │ Final Output     │
+                         │ Eligibility      │
+                         │ Readiness        │
+                         │ Next Steps       │
+                         │ Application     │
+                         └──────────────────┘
+Architecture Components
+Component	Role
+Groq LLM	Reasoning, planning, extraction and verification
+Custom Python Orchestrator	Coordinates agents, tools, state and replanning
+Tavily	Searches for relevant government sources
+Jina Reader	Retrieves and parses webpages/documents
+ChromaDB	Session-level memory and RAG retrieval
+data.gov.in	Optional official open-data cross-reference
+python-docx	Generates application drafts
+6. LLM
 
+CivicPilot uses Groq-hosted GPT-OSS models.
+
+Model	Purpose
+openai/gpt-oss-120b	Complex planning, reasoning and verification
+openai/gpt-oss-20b	Lightweight profile extraction
+openai/gpt-oss-safeguard-20b	Safeguard / document classification
+7. Agent Framework
+Custom Python Agent Orchestration
+
+CivicPilot does not use LangGraph or CrewAI.
+
+The system uses a custom orchestration layer implementing a:
+
+Plan
+ ↓
+Act
+ ↓
+Observe
+ ↓
+Verify
+ ↓
+Replan if necessary
+ ↓
+Report
+
+This allows the agent to dynamically decide which tools and subtasks are needed rather than following a fixed chatbot flow.
+
+8. Tools / Functions
+Tavily Search
+
+Searches the web for relevant government schemes and authoritative sources.
+
+Jina Reader
+
+Retrieves and parses government webpages and linked documents/PDF content.
+
+data.gov.in
+
+Used where applicable to cross-reference information with official open government datasets.
+
+ChromaDB
+
+Stores retrieved scheme information as embeddings for session-level semantic retrieval.
+
+python-docx
+
+Generates structured application drafts.
+
+9. RAG & Memory
+What is retrieved?
+
+CivicPilot retrieves:
+
+government scheme information;
+eligibility criteria;
+scheme guidelines;
+document requirements;
+prerequisite information;
+application information; and
+relevant official source content.
+How?
+Government Source
+      ↓
+Tavily / Jina
+      ↓
+Relevant Content
+      ↓
+Embeddings
+      ↓
+ChromaDB
+      ↓
+Semantic Retrieval
+      ↓
+LLM Context
+      ↓
+Verification / Reasoning
+Memory Type
+
+Short-term / session-level memory
+
+ChromaDB is currently used as an ephemeral session memory/cache. CivicPilot does not maintain a permanent citizen profile.
+
+10. Input → Output
+Input
+"I'm a student from Kerala,
+my family income is ₹2.5 lakh,
+and I need financial support for education."
+Agent Process
+Understand user
+      ↓
+Find relevant schemes
+      ↓
+Break eligibility into criteria
+      ↓
+Verify each criterion
+      ↓
+Find evidence
+      ↓
+Build document tree
+      ↓
+Find missing prerequisites
+      ↓
+Determine readiness
+      ↓
+Find official portal
+      ↓
+Prepare application
+Output
+Relevant Schemes
+        +
+Eligibility Evidence
+        +
+Missing Documents
+        +
+Prerequisite Steps
+        +
+Application Readiness
+        +
+Official Application Link
+        +
+Application Draft
+11. Tech
 CivicPilot uses specialized LLM-powered steps coordinated by a custom Python orchestrator.
 
 ```mermaid
