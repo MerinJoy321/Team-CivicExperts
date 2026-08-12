@@ -215,65 +215,8 @@ Plan → Search → Observe → Verify → Identify Dependencies
 ---
 
 ## 6. Agent Architecture
-Agent Architecture
-                         ┌──────────────────┐
-                         │      User        │
-                         │ Plain-language   │
-                         │     Goal/Input   │
-                         └────────┬─────────┘
-                                  ↓
-                         ┌──────────────────┐
-                         │   Intake Agent   │
-                         └────────┬─────────┘
-                                  ↓
-                         ┌──────────────────┐
-                         │  Planner Agent   │
-                         └────────┬─────────┘
-                                  ↓
-                    ┌──────────────────────────┐
-                    │ Custom Python            │
-                    │ Agent Orchestrator       │
-                    │                          │
-                    │ Plan → Act → Observe →   │
-                    │ Verify → Replan          │
-                    └────────────┬─────────────┘
-                                 │
-             ┌───────────────────┼───────────────────┐
-             ↓                   ↓                   ↓
-      ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-      │   Tavily    │     │ Jina Reader │     │  ChromaDB   │
-      │ Web Search  │     │ Web/PDF Read│     │ RAG/Memory  │
-      └─────────────┘     └─────────────┘     └─────────────┘
-             │                   │                   │
-             └───────────────────┼───────────────────┘
-                                 ↓
-                         ┌──────────────────┐
-                         │ Groq LLM         │
-                         │ GPT-OSS Models   │
-                         └────────┬─────────┘
-                                  ↓
-                    ┌──────────────────────────┐
-                    │ Eligibility Verifier     │
-                    └────────────┬─────────────┘
-                                 ↓
-                    ┌──────────────────────────┐
-                    │ Readiness / Dependency   │
-                    │ Analysis                  │
-                    └────────────┬─────────────┘
-                                 ↓
-                    ┌──────────────────────────┐
-                    │ Application Preparation   │
-                    │ + Official Portal         │
-                    └────────────┬─────────────┘
-                                 ↓
-                         ┌──────────────────┐
-                         │ Final Output     │
-                         │ Eligibility      │
-                         │ Readiness        │
-                         │ Next Steps       │
-                         │ Application     │
-                         └──────────────────┘
-Architecture Components
+
+### Architecture Components
 Component	Role
 Groq LLM	Reasoning, planning, extraction and verification
 Custom Python Orchestrator	Coordinates agents, tools, state and replanning
