@@ -10,7 +10,6 @@ requires-python = ">=3.11,<3.13"
 license = { text = "Proprietary" }
 
 dependencies = [
-    "crewai==0.130.0",
     "httpx==0.27.2",
     "chromadb==0.5.23",
     "python-docx==1.1.2",
