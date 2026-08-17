@@ -371,11 +371,4 @@ The system therefore combines **specialized agents, tools, state, scheduling, ve
 - Memory is currently session-level
 - Full runs may take several minutes because multiple tool and model calls can be required
 
----
 
-## Security & Privacy
-
-- Do not commit `.env` or API keys
-- Use `.env.example` as the configuration template
-- Final application submission remains under the user's control
-- The current MVP does not maintain a permanent citizen profile
