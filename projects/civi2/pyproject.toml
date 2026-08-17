@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel>=0.41.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "civicpilot"
+version = "0.1.0"
+description = "A high-speed, multi-tool AI agent system that helps Indian citizens discover and verify their eligibility for government welfare schemes."
+requires-python = ">=3.11,<3.13"
+license = { text = "Proprietary" }
+
+dependencies = [
+    "crewai==0.130.0",
+    "httpx==0.27.2",
+    "chromadb==0.5.23",
+    "python-docx==1.1.2",
+    "python-dotenv==1.0.1",
+    "reportlab==4.2.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+    "pytest-asyncio==0.24.0",
+    "hypothesis==6.115.5",
+]
+
+[tool.setuptools.packages.find]
+include = ["civicpilot*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
