@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicPilot - Official Public Scheme Eligibility & Verification Engine</title>
+  <link rel="stylesheet" href="/static/styles.css?v=29.0">
+</head>
+<body>
+
+  <!-- Main Split App Layout -->
+  <div class="split-app-layout">
+    
+    <!-- Center Left Main Workspace Container -->
+    <div class="left-workspace-column">
+      
+      <!-- Top Left Header -->
+      <header class="top-header">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M13 10v11M17 10v11M12 3L2 10h20L12 3z"/></svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">CivicPilot</span>
+            <span class="brand-divider">|</span>
+            <span class="brand-subtitle">Public Scheme Eligibility & Verification Engine</span>
+          </div>
+        </div>
+
+        <div class="model-badge">
+          <span class="status-dot"></span>
+          ⚡ Groq · GPT-OSS 120B & LLaMA 3.1 8B
+        </div>
+      </header>
+
+      <!-- Center Hero Content Grid -->
+      <div class="workspace-content-grid">
+        
+        <!-- Left Sub-Pane: Input Form & Controls -->
+        <div class="workspace-left-pane">
+          
+          <div class="ai-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>AI-Powered Eligibility Engine</span>
+          </div>
+
+          <h1 class="hero-heading">
+            Find schemes<br>
+            <span class="gradient-text">you deserve.</span>
+          </h1>
+
+          <p class="hero-desc">
+            Describe your situation — our multi-agent AI searches 2,847 government schemes and verifies your eligibility in seconds.
+          </p>
+
+          <!-- Manual Input Area -->
+          <div class="input-section">
+            <label for="promptInput" class="input-label">AGE · OCCUPATION · INCOME · LOCATION · FAMILY</label>
+            <textarea id="promptInput" class="input-textarea" placeholder="e.g. I am a 21 year old student in Kerala looking for higher education scholarships and tuition fee support..."></textarea>
+          </div>
+
+          <div class="action-row">
+            <button id="submitBtn" class="submit-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Analyze Scheme Eligibility</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+
+          <div class="divider-row">
+            <span>OR QUICK SELECT A SCENARIO</span>
+          </div>
+
+          <!-- Quick Select Scenarios -->
+          <div class="quick-scenario-section">
+            <span class="section-label">QUICK SELECT A SCENARIO</span>
+            <div class="preset-container">
+              <button class="preset-chip" data-prompt="I am a 45 year old widow seeking widow pension and state financial assistance in Kerala.">
+                Widow Financial Aid (Kerala)
+              </button>
+              <button class="preset-chip" data-prompt="I am a 68 year old senior citizen in Kerala seeking old age pension and healthcare support.">
+                Senior Pension (Kerala)
+              </button>
+              <button class="preset-chip" data-prompt="I am a small farmer in Kerala seeking agricultural machinery subsidy and crop assistance.">
+                Farmer Subsidy (Kerala)
+              </button>
+              <button class="preset-chip" data-prompt="I am a small business owner in Kerala seeking MSME loan assistance and grant support.">
+                Small Business MSME (Kerala)
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer Trust Badges -->
+          <div class="trust-badges-row">
+            <span class="trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              End-to-end encrypted
+            </span>
+            <span class="trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              No data stored
+            </span>
+            <span class="trust-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              2,847 schemes indexed
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Right Sub-Pane: Scheme Report Results Display -->
+        <div class="workspace-right-pane">
+          
+          <!-- Empty State Placeholder before Analysis -->
+          <div id="resultsPlaceholder" class="results-placeholder">
+            <div class="placeholder-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div class="placeholder-title">Scheme Report Ready</div>
+            <div class="placeholder-desc">Submit your details on the left to view verified scheme eligibility reports and required document guides here.</div>
+          </div>
+
+          <!-- Scheme Report Results Section -->
+          <section id="resultsCard" class="results-card">
+            <h2 class="results-header">Scheme Eligibility & Verification Report</h2>
+            <div id="profileSummaryBox" class="profile-summary-box"></div>
+            <h3 class="sub-section-title">Verified Matching Government Schemes</h3>
+            <div id="schemesGrid" class="schemes-grid"></div>
+            
+            <!-- Hidden Trace Output Container for JS data mapping -->
+            <pre id="traceOutput" style="display: none;"></pre>
+          </section>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Collapsible Dark Multi-Agent & AI Tool Research Audit Panel -->
+    <aside id="auditPanel" class="right-audit-panel collapsed">
+      
+      <!-- Sleek Angled Tab Pull Toggle Button with High-Visibility Purple Chevron Arrow -->
+      <button id="toggleAuditBtn" class="audit-toggle-btn" title="Toggle Multi-Agent Trace Drawer">
+        <div class="bracket-tab">
+          <svg id="toggleChevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span id="activePulseBadge" class="pulse-indicator"></span>
+        </div>
+      </button>
+
+      <div class="audit-panel-header">
+        <div class="audit-header-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2V4a2 2 0 0 1 2-2z"/><circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/><path d="M10 15h4"/></svg>
+          <span>Multi-Agent & AI Tool Audit</span>
+        </div>
+        <span id="wsStatusBadge" class="ws-status-badge">
+          <span class="live-dot"></span> IDLE
+        </span>
+      </div>
+      
+      <p class="audit-header-desc">Live real-time trace of agent reasoning, AI tool executions, & rule verifications</p>
+
+      <!-- Scrollable Live Activity Stream Container -->
+      <div id="liveActivityBox" class="live-activity-box">
+        <div class="empty-state">
+          <div class="empty-icon-box">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2V4a2 2 0 0 1 2-2z"/><circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/><path d="M10 15h4"/></svg>
+          </div>
+          <div class="empty-title">Agents & AI Tools Standing By</div>
+          <div class="empty-desc">Submit your circumstances to begin multi-agent research & AI tool executions</div>
+        </div>
+      </div>
+
+      <div class="audit-panel-footer">
+        <span>All agent reasoning & AI tool executions are auditable - Results are advisory only</span>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
