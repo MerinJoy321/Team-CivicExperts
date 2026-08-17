@@ -171,60 +171,66 @@ ChromaDB caches retrieved scheme information within the session to reduce repeat
 
 ## 5. Agent Workflow / Flowchart
 
+CivicPilot currently implements agent orchestration through a **custom Python orchestration layer**. The five role classes are coordinated through the Scheduler, ToolTask, and ModelClient layers.
+
 ```mermaid
 flowchart TD
-    A[Citizen describes situation] --> B[Intake Agent]
-    B --> C[Structured User Profile]
-    C --> D[Planner Agent]
+    A[Citizen describes situation] --> B[PlannerAgent]
+    B --> C[Validated SearchPlan]
 
-    D --> E[Search Government Sources]
+    C --> D[ResearcherAgent]
+    D --> E[Search + Fetch + Filtering]
     E --> F[Candidate Schemes]
 
-    F --> G[Fetch & Read Scheme Sources]
-    G --> H[Verify Scheme Document]
+    F --> G[VerifierAgent]
+    G --> H[Criterion-by-Criterion Verification]
 
-    H --> I[Break Eligibility into Criteria]
-    I --> J[Criterion-by-Criterion Verification]
+    H --> I{Eligibility status}
 
-    J --> K{Eligible?}
+    I -->|FAIL| J[Explain failed criteria]
+    I -->|UNCERTAIN| K[Identify missing information]
+    I -->|PASS / Possible| L[Evidence & Document Analysis]
 
-    K -->|No| L[Explain Failed Criteria]
-    K -->|Uncertain| M[Request / Identify Missing Information]
-    K -->|Yes / Possible| N[Build Evidence & Document Tree]
+    L --> M[DocumentAdvisorAgent]
+    M --> N[Documents / Prerequisites / Next Actions]
 
-    N --> O{Required Evidence Available?}
-    O -->|No| P[Identify Missing Documents / Prerequisites]
-    O -->|Yes| Q[Application Ready]
-
-    P --> R[Determine Next Actions]
-    R --> S[Find Official Application Portal]
-
-    Q --> S
-    S --> T[Explain Documents & Application Steps]
-    T --> U[Generate Application Draft]
-    U --> V[Final Readiness Report]
+    N --> O[Official Application Route]
+    O --> P[ReporterAgent]
+    P --> Q[Final Eligibility + Readiness Report]
+    Q --> R[Application Draft]
 ```
 
 ### Agent execution pattern
 
 ```text
-Plan → Search → Observe → Verify → Identify Dependencies
-→ Replan if required → Prepare → Report
+Plan → Act → Observe → Verify → Replan if necessary → Report
 ```
+
+The orchestration is implemented by CivicPilot's own Python classes and Scheduler rather than by CrewAI or LangGraph.
 
 ---
 
 ## 6. Agent Architecture
 
 ### Architecture Components
-Component	Role
-Groq LLM	Reasoning, planning, extraction and verification
-Custom Python Orchestrator	Coordinates agents, tools, state and replanning
-Tavily	Searches for relevant government sources
-Jina Reader	Retrieves and parses webpages/documents
-ChromaDB	Session-level memory and RAG retrieval
-data.gov.in	Optional official open-data cross-reference
-python-docx	Generates application drafts
+
+| Component | Role |
+|---|---|
+| **Model Providers** | Profile extraction, planning, reasoning and verification |
+| **Custom Python Agent Orchestrator** | Coordinates agents, tools, state, dependencies and execution |
+| **PlannerAgent** | Converts a citizen profile into a validated SearchPlan |
+| **ResearcherAgent** | Executes search/fetch waves and filters candidate schemes |
+| **VerifierAgent** | Evaluates scheme criteria against the citizen profile |
+| **ReporterAgent** | Produces final reporting and telemetry-facing output |
+| **DocumentAdvisorAgent** | Handles document and application-readiness guidance |
+| **Scheduler** | Coordinates bounded asynchronous ToolTask execution |
+| **ToolTask** | Represents an executable tool/model operation |
+| **ModelClient** | Central interface for model calls |
+| **Tavily / Search Tool** | Searches for relevant government sources |
+| **Jina Reader / Fetch Tool** | Retrieves and parses webpages/documents |
+| **ChromaDB** | Session-level memory/cache |
+| **data.gov.in** | Optional official open-data cross-reference |
+| **python-docx** | Generates application drafts |
 6. LLM
 
 CivicPilot uses Groq-hosted GPT-OSS models.
@@ -420,24 +426,21 @@ flowchart TB
 
 ### Frontend
 
-- **Streamlit ≥ 1.37**
-- Single-page UI
-- `st.session_state` for phase/state management
-- Live `TraceEvent` progress display
-- Markdown eligibility/readiness report
+- HTML / CSS / JavaScript web UI
+- Static assets served by the FastAPI application
+- Live agent trace through the application's streaming/WebSocket endpoint
+- Eligibility and application-readiness report
 - `.docx` download
 
 ### Backend
 
-There is no separate FastAPI/Django/Node server.
-
-The backend is the **Python agent runtime**:
-
-- Python 3.9+
-- Custom orchestration generator
+- Python 3.11–3.12
+- FastAPI
+- Uvicorn
+- Custom Python agent orchestration
 - `python-dotenv`
-- `requests`
-- temporary file storage for generated documents
+- asynchronous Scheduler / ToolTask execution
+- generated document handling
 
 ### AI / LLM
 
@@ -760,4 +763,39 @@ Generate the application draft
 Return a verifiable result
 ```
 
-The agent therefore performs a **multi-step task with external tools, state, verification, and a concrete outcome** rather than returning a single LLM-generated answer.
+The system therefore performs a **multi-step task with external tools, state, verification, dependency-aware execution, and a concrete outcome** rather than returning a single LLM-generated answer.
+
+### What "custom orchestration" means in CivicPilot
+
+The orchestration layer is the Python control system that decides which specialized role runs, submits `ToolTask` operations to the `Scheduler`, passes results between stages, enforces validation rules, handles failures, and assembles the final report.
+
+```text
+User Goal
+   ↓
+PlannerAgent
+   ↓
+SearchPlan
+   ↓
+Scheduler
+   ├── SearchTool / FetchTool
+   ├── ModelClient
+   └── other ToolTasks
+   ↓
+ResearcherAgent
+   ↓
+Candidate Schemes
+   ↓
+VerifierAgent
+   ↓
+Eligibility + Evidence
+   ↓
+DocumentAdvisorAgent
+   ↓
+Application Readiness
+   ↓
+ReporterAgent
+   ↓
+Final Report / Draft
+```
+
+This custom Python layer is the orchestration framework used by the current CivicPilot implementation.
