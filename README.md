@@ -1,801 +1,381 @@
-# Project - CivicPilot
-## Team name - CivicExperts
-## Team members
-### >Aibel Bejoy - S3 CS DS
-### >Merin Joy - S5 CS C
-### >Sijil Saju - S3 CS DS
-# CivicPilot — From Eligibility to Application Readiness
+# CivicPilot
 
-CivicPilot is an **agentic AI welfare-navigation system** for Indian citizens. A user describes their situation in plain language, and CivicPilot autonomously discovers relevant government welfare schemes, verifies eligibility against authoritative criteria, traces the evidence and document requirements needed to prove that eligibility, identifies prerequisites, finds the official application portal, and prepares a structured application draft.
+## Team CivicExperts
 
-The key idea is to go beyond **"Which schemes am I eligible for?"** and answer:
+- Aibel Bejoy - S3 CS DS
+- Merin Joy - S5 CS C
+- Sijil Saju - S3 CS DS
 
-> **"Am I actually ready to apply, what is missing, and what do I need to do next?"**
+## 🚀 Live Demo
 
----
+**Production:** https://civicpilot-7ggh5eord-merin-joys-projects.vercel.app
 
-## 1. Problem Statement
-
-Thousands of Indian government welfare schemes exist across departments and portals, but citizens often struggle to:
-
-- find schemes relevant to their situation;
-- understand dense eligibility rules and administrative terminology;
-- determine whether they actually satisfy every criterion;
-- know what documents or evidence prove each criterion;
-- understand prerequisite certificates or government services;
-- find the correct official application portal; and
-- know what to do with the documents they have gathered.
-
-A conventional chatbot may simply say **"you are eligible"** without showing how that conclusion was reached.
-
-The deeper gap is:
-
-**Eligibility ≠ Application Readiness**
-
-A citizen can qualify for a scheme and still be unable to apply because required evidence, documents, prerequisites, or the correct application route are missing.
+**Alias:** https://civicpilot-gamma.vercel.app
 
 ---
 
-## 2. Solution
+## What is CivicPilot?
 
-CivicPilot acts as an **autonomous welfare-navigation agent**.
+CivicPilot is an **agentic AI welfare-navigation system for Indian citizens**.
 
-The user provides their situation once in plain language. The agent then:
+A user describes their situation in plain language. CivicPilot searches relevant government sources, verifies eligibility, identifies missing documents and prerequisites, finds the official application route, and prepares an application draft.
 
-1. discovers relevant schemes from government sources;
-2. breaks the selected scheme into individual eligibility criteria;
-3. checks each criterion against the user's information;
-4. links each decision to supporting government evidence;
-5. identifies missing or uncertain information;
-6. builds a document/evidence dependency tree;
-7. identifies prerequisite certificates or services;
-8. determines whether the citizen is application-ready;
-9. finds the official application portal;
-10. explains what information/documents need to be used there; and
-11. generates a structured application draft for the user to review.
+The key idea is:
 
-The agent does **not** submit applications on behalf of the citizen. The final submission remains on the official government portal.
+> **Eligibility is not the same as application readiness.**
+
+A citizen may qualify for a scheme but still be unable to apply because required documents, evidence, certificates, or the correct application route are missing.
 
 ---
 
-## 3. What the User Gets
+## Problem
 
-For each relevant scheme, CivicPilot provides:
+Citizens often struggle to:
 
-### Eligibility
+- Find government schemes relevant to them
+- Understand complicated eligibility rules
+- Verify whether they actually qualify
+- Know which documents prove eligibility
+- Identify prerequisite certificates or services
+- Find the correct official application portal
+- Know what to do next
 
-- PASS / FAIL / UNCERTAIN for individual criteria
-- reason for each decision
-- quoted supporting text from the source
-- source link for verification
+A simple chatbot can answer "Am I eligible?" but may not explain **why**, **what evidence is needed**, or **whether the citizen is ready to apply**.
 
-### Application Readiness
+---
 
-- eligible / not eligible / insufficient information
-- documents already available
-- missing documents
-- missing evidence
-- prerequisite services or certificates
-- recommended order of actions
+## Solution
 
-### Application
-
-- official application portal/link
-- explanation of what to prepare before opening it
-- structured application draft (`.docx`)
-
-### Example
+CivicPilot takes the user through:
 
 ```text
-Scheme: Student Scholarship
-
-Eligibility
-✓ Age requirement
-✓ Income requirement
-✓ Residence requirement
-? Institution requirement
-
-Evidence
-✓ Marksheet
-✓ Residence proof
-✗ Income certificate
-
-Prerequisite
-→ Obtain income certificate
-
-Readiness
-→ Eligible, but NOT YET APPLICATION-READY
-
-Next step
-→ Obtain income certificate
-→ Return to scholarship application
-
-Official portal
-→ [Verified government application link]
+Citizen Situation
+      ↓
+Plan
+      ↓
+Search Government Sources
+      ↓
+Find Candidate Schemes
+      ↓
+Verify Eligibility
+      ↓
+Find Evidence & Documents
+      ↓
+Identify Prerequisites
+      ↓
+Check Application Readiness
+      ↓
+Find Official Application Portal
+      ↓
+Generate Application Draft
 ```
+
+CivicPilot does **not** submit the application on behalf of the citizen. Final submission remains on the official government portal.
 
 ---
 
-## 4. Key Features
+## Key Features
 
-### 4.1 Natural-language citizen intake
-Users describe their situation without knowing government terminology.
+### 🔎 Scheme Discovery
+Dynamically searches government sources instead of relying only on a hardcoded scheme list.
 
-### 4.2 Autonomous scheme discovery
-The agent dynamically searches government sources instead of relying on a hardcoded scheme list.
-
-### 4.3 Criterion-by-criterion verification
-Eligibility is decomposed into individual conditions rather than producing a single yes/no prediction.
-
-### 4.4 Evidence-backed decisions
-Each criterion includes supporting source text and a source URL.
-
-### 4.5 Uncertainty handling
-The system can explicitly return:
+### ✅ Criterion-Level Verification
+Checks individual eligibility conditions as:
 
 - `PASS`
 - `FAIL`
 - `UNCERTAIN`
 
-It does not guess missing information.
+Each decision can include its reason and supporting source.
 
-### 4.6 Eligibility Evidence Matrix
-The system maps:
-
-**Government criterion → User information → Evidence → Result**
-
-### 4.7 Document and prerequisite tree
-For each unmet requirement, CivicPilot traces what evidence/document is needed and, where possible, what prerequisite service or document is needed to obtain it.
-
-### 4.8 Application-readiness assessment
-The system distinguishes between:
-
-**Eligible** and **Ready to Apply**
-
-### 4.9 Official application route
-CivicPilot identifies the official application portal rather than leaving the user to search independently.
-
-### 4.10 Application guidance
-The user receives an explanation of what documents and information should be prepared for the application.
-
-### 4.11 Application draft
-A downloadable `.docx` draft is generated for the top recommended/possible scheme.
-
-### 4.12 Agent execution trace
-The UI exposes planning, tool calls, verification, decisions, and final output for transparency.
-
-### 4.13 Session memory
-ChromaDB caches retrieved scheme information within the session to reduce repeated fetching.
-
----
-
-## 5. Agent Workflow / Flowchart
-
-CivicPilot currently implements agent orchestration through a **custom Python orchestration layer**. The five role classes are coordinated through the Scheduler, ToolTask, and ModelClient layers.
-
-```mermaid
-flowchart TD
-    A[Citizen describes situation] --> B[PlannerAgent]
-    B --> C[Validated SearchPlan]
-
-    C --> D[ResearcherAgent]
-    D --> E[Search + Fetch + Filtering]
-    E --> F[Candidate Schemes]
-
-    F --> G[VerifierAgent]
-    G --> H[Criterion-by-Criterion Verification]
-
-    H --> I{Eligibility status}
-
-    I -->|FAIL| J[Explain failed criteria]
-    I -->|UNCERTAIN| K[Identify missing information]
-    I -->|PASS / Possible| L[Evidence & Document Analysis]
-
-    L --> M[DocumentAdvisorAgent]
-    M --> N[Documents / Prerequisites / Next Actions]
-
-    N --> O[Official Application Route]
-    O --> P[ReporterAgent]
-    P --> Q[Final Eligibility + Readiness Report]
-    Q --> R[Application Draft]
-```
-
-### Agent execution pattern
+### 📚 Evidence Mapping
 
 ```text
-Plan → Act → Observe → Verify → Replan if necessary → Report
+Government Criterion
+        ↓
+User Information
+        ↓
+Supporting Evidence
+        ↓
+Verification Result
 ```
 
-The orchestration is implemented by CivicPilot's own Python classes and Scheduler rather than by CrewAI or LangGraph.
+### 📄 Document & Prerequisite Analysis
+
+Identifies:
+
+- Available documents
+- Missing documents
+- Missing information
+- Required certificates
+- Prerequisite services
+- Recommended next actions
+
+### 🟢 Application Readiness
+
+CivicPilot distinguishes between:
+
+```text
+ELIGIBLE
+   ≠
+READY TO APPLY
+```
+
+### 🌐 Official Application Route
+
+Finds the official application portal and explains what the citizen should prepare.
+
+### 📝 Application Draft
+
+Generates a structured `.docx` application draft for the user to review.
+
+### 👁️ Agent Execution Trace
+
+The UI exposes the major planning, tool, verification, and decision steps so the process is transparent.
 
 ---
 
-## 6. Agent Architecture
+## Custom Agent Orchestration
 
-### Architecture Components
+CivicPilot is **agentic without relying on CrewAI or LangGraph**.
 
-| Component | Role |
+The project uses a custom Python orchestration layer with five specialized roles:
+
+| Agent | Responsibility |
 |---|---|
-| **Model Providers** | Profile extraction, planning, reasoning and verification |
-| **Custom Python Agent Orchestrator** | Coordinates agents, tools, state, dependencies and execution |
-| **PlannerAgent** | Converts a citizen profile into a validated SearchPlan |
-| **ResearcherAgent** | Executes search/fetch waves and filters candidate schemes |
-| **VerifierAgent** | Evaluates scheme criteria against the citizen profile |
-| **ReporterAgent** | Produces final reporting and telemetry-facing output |
-| **DocumentAdvisorAgent** | Handles document and application-readiness guidance |
-| **Scheduler** | Coordinates bounded asynchronous ToolTask execution |
-| **ToolTask** | Represents an executable tool/model operation |
-| **ModelClient** | Central interface for model calls |
-| **Tavily / Search Tool** | Searches for relevant government sources |
-| **Jina Reader / Fetch Tool** | Retrieves and parses webpages/documents |
+| **PlannerAgent** | Creates a validated research plan |
+| **ResearcherAgent** | Searches, fetches, filters and ranks scheme information |
+| **VerifierAgent** | Checks eligibility criteria against the user profile |
+| **DocumentAdvisorAgent** | Identifies documents, evidence and prerequisites |
+| **ReporterAgent** | Produces the final result and reporting information |
+
+Supporting orchestration components:
+
+- **Scheduler** - coordinates asynchronous work and dependencies
+- **ToolTask** - represents executable tool/model operations
+- **ModelClient** - handles model calls
+
+### How they cooperate
+
+```text
+User Profile
+     ↓
+PlannerAgent
+     ↓
+SearchPlan
+     ↓
+ResearcherAgent
+     ↓
+Candidate Schemes
+     ↓
+VerifierAgent
+     ↓
+Eligibility + Evidence
+     ↓
+DocumentAdvisorAgent
+     ↓
+Documents + Prerequisites
+     ↓
+ReporterAgent
+     ↓
+Final Readiness Report
+```
+
+The overall execution pattern is:
+
+```text
+Plan → Act → Observe → Verify → Replan → Report
+```
+
+This custom orchestration is the actual agent framework used by CivicPilot.
+
+---
+
+## Technology
+
+### AI
+
+- Groq-hosted models
+- Separate fast and reasoning model roles
+- Structured model calls for planning and verification
+
+### Backend
+
+- Python 3.11+
+- FastAPI
+- Uvicorn
+- Custom Python agent orchestration
+
+### Tools
+
+| Technology | Purpose |
+|---|---|
+| **Tavily** | Web/search discovery |
+| **Jina Reader** | Webpage/document retrieval |
 | **ChromaDB** | Session-level memory/cache |
 | **data.gov.in** | Optional official open-data cross-reference |
-| **python-docx** | Generates application drafts |
-6. LLM
+| **python-docx** | Application draft generation |
 
-CivicPilot uses Groq-hosted GPT-OSS models.
+### Frontend
 
-Model	Purpose
-openai/gpt-oss-120b	Complex planning, reasoning and verification
-openai/gpt-oss-20b	Lightweight profile extraction
-openai/gpt-oss-safeguard-20b	Safeguard / document classification
-7. Agent Framework
-Custom Python Agent Orchestration
+- HTML
+- CSS
+- JavaScript
+- Live agent activity/trace
 
-CivicPilot does not use LangGraph or CrewAI.
+---
 
-The system uses a custom orchestration layer implementing a:
+## RAG & Memory
 
-Plan
- ↓
-Act
- ↓
-Observe
- ↓
-Verify
- ↓
-Replan if necessary
- ↓
-Report
+CivicPilot can retrieve and reuse relevant scheme information during a session.
 
-This allows the agent to dynamically decide which tools and subtasks are needed rather than following a fixed chatbot flow.
-
-8. Tools / Functions
-Tavily Search
-
-Searches the web for relevant government schemes and authoritative sources.
-
-Jina Reader
-
-Retrieves and parses government webpages and linked documents/PDF content.
-
-data.gov.in
-
-Used where applicable to cross-reference information with official open government datasets.
-
-ChromaDB
-
-Stores retrieved scheme information as embeddings for session-level semantic retrieval.
-
-python-docx
-
-Generates structured application drafts.
-
-9. RAG & Memory
-What is retrieved?
-
-CivicPilot retrieves:
-
-government scheme information;
-eligibility criteria;
-scheme guidelines;
-document requirements;
-prerequisite information;
-application information; and
-relevant official source content.
-How?
+```text
 Government Source
       ↓
 Tavily / Jina
       ↓
 Relevant Content
       ↓
-Embeddings
-      ↓
 ChromaDB
       ↓
 Semantic Retrieval
       ↓
-LLM Context
+Model Context
       ↓
-Verification / Reasoning
-Memory Type
-
-Short-term / session-level memory
-
-ChromaDB is currently used as an ephemeral session memory/cache. CivicPilot does not maintain a permanent citizen profile.
-
-10. Input → Output
-Input
-"I'm a student from Kerala,
-my family income is ₹2.5 lakh,
-and I need financial support for education."
-Agent Process
-Understand user
-      ↓
-Find relevant schemes
-      ↓
-Break eligibility into criteria
-      ↓
-Verify each criterion
-      ↓
-Find evidence
-      ↓
-Build document tree
-      ↓
-Find missing prerequisites
-      ↓
-Determine readiness
-      ↓
-Find official portal
-      ↓
-Prepare application
-Output
-Relevant Schemes
-        +
-Eligibility Evidence
-        +
-Missing Documents
-        +
-Prerequisite Steps
-        +
-Application Readiness
-        +
-Official Application Link
-        +
-Application Draft
-11. Tech
-CivicPilot uses specialized LLM-powered steps coordinated by a custom Python orchestrator.
-
-```mermaid
-flowchart TB
-    subgraph UI["Frontend — Streamlit"]
-        A[Goal Input]
-        B[Profile Review]
-        C[Live Agent Trace]
-        D[Eligibility + Readiness Report]
-        E[Application Draft]
-    end
-
-    subgraph Agent["Agent Layer"]
-        I[Intake Agent]
-        P[Planner Agent]
-        O[Orchestrator]
-        V[Eligibility Verifier]
-        R[Readiness / Dependency Analysis]
-    end
-
-    subgraph Tools["External Tools"]
-        T[Tavily Search]
-        J[Jina Reader]
-        M[ChromaDB Memory]
-        G[data.gov.in]
-        W[Official Source / Application Link Discovery]
-        D2[python-docx]
-    end
-
-    A --> I
-    I --> B
-    B --> P
-    P --> O
-
-    O --> T
-    O --> J
-    O --> M
-    O --> G
-    O --> V
-    V --> R
-    R --> W
-    W --> D2
-
-    O --> C
-    R --> D
-    D2 --> E
-
-    I --> LLM[Groq LLM API]
-    P --> LLM
-    V --> LLM
-    R --> LLM
+Verification
 ```
 
-### Agent responsibilities
-
-| Agent / Component | Responsibility |
-|---|---|
-| **Intake Agent** | Converts natural-language situation into a structured citizen profile |
-| **Planner Agent** | Breaks the goal into executable research and verification tasks |
-| **Orchestrator** | Executes the plan, calls tools, maintains state, and coordinates steps |
-| **Eligibility Verifier** | Compares scheme criteria with the citizen profile and source text |
-| **Readiness / Dependency Layer** | Determines missing evidence, documents, prerequisites and application readiness |
-| **Source Tools** | Retrieve and inspect government information |
-| **Document Generator** | Produces the application draft |
+The current memory is **session-level**. CivicPilot does not maintain a permanent citizen profile.
 
 ---
 
-## 7. Tech Stack
-
-### Frontend
-
-- HTML / CSS / JavaScript web UI
-- Static assets served by the FastAPI application
-- Live agent trace through the application's streaming/WebSocket endpoint
-- Eligibility and application-readiness report
-- `.docx` download
-
-### Backend
-
-- Python 3.11–3.12
-- FastAPI
-- Uvicorn
-- Custom Python agent orchestration
-- `python-dotenv`
-- asynchronous Scheduler / ToolTask execution
-- generated document handling
-
-### AI / LLM
-
-**Groq API**
-
-Task-based model routing:
-
-| Task | Model |
-|---|---|
-| Complex reasoning / planning / verification | `openai/gpt-oss-120b` |
-| Simple profile extraction | `openai/gpt-oss-20b` |
-| Safeguard document classification | `openai/gpt-oss-safeguard-20b` |
-
-LLM features:
-
-- function calling for structured output
-- streaming generation
-- retry with exponential backoff
-- model fallback on rate limits
-
-### Agent Framework
-
-**Custom Python agent orchestration**
-
-No LangChain or LangGraph is used.
-
-The orchestrator implements:
-
-**Plan → Act → Observe → Verify → Replan → Report**
-
-### Tools / APIs
-
-| Tool | Purpose |
-|---|---|
-| **Tavily** | Search for relevant government schemes and official sources |
-| **Jina AI Reader** | Fetch and parse web pages/PDF-linked content |
-| **data.gov.in API** | Optional official open-data cross-reference |
-| **ChromaDB** | Session-level semantic memory/cache |
-| **python-docx** | Generate application drafts |
-| **Groq API** | LLM inference |
-
-Search is scoped toward official government sources, including `.gov.in` and relevant government scheme portals.
-
-### Database / Memory
-
-**ChromaDB**
-
-- `EphemeralClient`
-- in-process session memory
-- `all-MiniLM-L6-v2` embeddings
-- similarity-based caching of previously retrieved scheme information
-
-No external database is required for the current MVP.
-
----
-
-## 8. Current Agent State / Data Models
-
-### `UserProfile`
+## Project Structure
 
 ```text
-age
-gender
-occupation
-income_annual_inr
-income_description
-location_state
-location_type
-category
-disability_status
-special_status
-family_size
-education_level
-stated_need
-raw_goal
-```
-
-### `VerificationResult`
-
-```text
-scheme_name
-source_url
-overall
-confidence
-verified_against_official
-criteria_checks[]
-rejection_reason
-note
-```
-
-### `CriterionCheck`
-
-```text
-criterion
-status        # PASS | FAIL | UNCERTAIN
-reason
-quoted_text
-```
-
-### Extended readiness state
-
-```text
-eligibility_status
-evidence_available[]
-missing_information[]
-required_documents[]
-missing_documents[]
-prerequisites[]
-next_actions[]
-official_application_url
-application_readiness
-```
-
----
-
-## 9. How the Agent Handles a Scheme
-
-For a selected scheme, the agent follows a decision-tree style process:
-
-```text
-Scheme
-  │
-  ├── Criterion 1
-  │     └── What evidence proves it?
-  │             └── Is evidence available?
-  │
-  ├── Criterion 2
-  │     └── What document proves it?
-  │             └── Is document available?
-  │
-  ├── Criterion 3
-  │     └── Is another certificate required?
-  │             └── What is needed to obtain it?
-  │
-  └── Final readiness
-          ├── Ready
-          └── Missing requirements
-                  ↓
-             Next actions
-                  ↓
-        Official application portal
-```
-
-This turns a dense scheme guideline into an actionable path for the citizen.
-
----
-
-## 10. Project Structure
-
-```text
-agentic-ai/
-├── app.py
-├── requirements.txt
+civi2/
+├── api/
+│   └── index.py
+├── civicpilot/
+│   ├── agents/
+│   ├── scheduler/
+│   ├── tools/
+│   ├── pipeline/
+│   ├── telemetry/
+│   └── web/
+│       ├── server.py
+│       └── static/
+├── tests/
+├── pyproject.toml
 ├── .env.example
-├── README.md
-└── agent/
-    ├── groq_client.py
-    ├── intake.py
-    ├── planner.py
-    ├── orchestrator.py
-    ├── verifier.py
-    └── tools/
-        ├── tavily_search.py
-        ├── jina_reader.py
-        ├── memory.py
-        ├── datagov.py
-        └── doc_generator.py
+├── .gitignore
+├── run.py
+└── vercel.json
 ```
 
-The readiness/dependency layer can be implemented as an extension of the planner/orchestrator/verifier pipeline without requiring a separate backend.
+`.venv/` and `.env` are local-only and should not be committed.
 
 ---
 
-## 11. Setup / How to Run
-
-### Prerequisites
-
-- Python 3.9+
-- Groq API key
-- Tavily API key
-- Optional: data.gov.in API key
+## Running Locally
 
 ### Install
 
-```bash
-git clone <repository-url>
-cd agentic-ai
-
-pip install -r requirements.txt
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e .
 ```
 
-### Configure environment
+### Configure
 
-```bash
-cp .env.example .env
+Copy `.env.example` to `.env` and add the required API/model credentials.
+
+### Start
+
+```powershell
+.\.venv\Scripts\python.exe run.py
 ```
 
-Add:
-
-```env
-GROQ_API_KEY=your_groq_key
-TAVILY_API_KEY=your_tavily_key
-DATA_GOV_IN_API_KEY=your_optional_key
-```
-
-### Run
-
-```bash
-streamlit run app.py
-```
-
-The application will normally be available at:
+Open:
 
 ```text
-http://localhost:8501
+http://127.0.0.1:8000
 ```
 
-### Important
-
-Do not commit `.env` or real API keys to the repository. Use `.env.example` only as a template.
-
 ---
 
-## 12. Example User Journey
+## Deployment
 
-**User:**
-
-> "I'm a 55-year-old widow with no income living in rural Kerala."
-
-### CivicPilot
-
-**Step 1 — Understand**
-
-Extracts the citizen profile.
-
-**Step 2 — Discover**
-
-Searches government sources for potentially relevant welfare schemes.
-
-**Step 3 — Verify**
-
-Checks each candidate scheme criterion-by-criterion.
-
-**Step 4 — Evidence**
-
-Maps the criteria to the citizen's information and quoted government requirements.
-
-**Step 5 — Readiness**
-
-Determines which documents/evidence are already available and which are missing.
-
-**Step 6 — Dependencies**
-
-Identifies prerequisite certificates or services where applicable.
-
-**Step 7 — Apply**
-
-Finds the official application route and explains what should be prepared.
-
-**Step 8 — Draft**
-
-Generates a structured application draft.
-
----
-
-## 13. Design Principles
-
-1. **Plan and execute, not single-shot prompting**
-2. **Source-grounded verification**
-3. **No guessing missing user information**
-4. **Explicit uncertainty**
-5. **Criterion-level evidence**
-6. **Eligibility is separate from application readiness**
-7. **Official application routes**
-8. **Human review before final submission**
-9. **No hardcoded scheme-specific logic**
-10. **Transparent agent trace**
-
----
-
-## 14. Limitations
-
-- India-specific for the current MVP.
-- Government pages and scheme rules can change.
-- Eligibility quality depends on the availability and clarity of authoritative source material.
-- The system does not directly submit applications to government portals.
-- Application drafts may leave personal fields blank for the user to complete.
-- Current ChromaDB memory is session-level and ephemeral.
-- Network calls and multiple LLM/tool steps can make a full run take several minutes.
-
----
-
-## 15. Why It Is Agentic
-
-CivicPilot is not simply a chatbot that retrieves schemes.
-
-Given a high-level citizen goal, the system:
+CivicPilot is deployed as a Python serverless application on Vercel.
 
 ```text
-Understand the situation
-        ↓
-Plan what needs to be found
-        ↓
-Search external sources
-        ↓
-Inspect candidate schemes
-        ↓
-Verify individual criteria
-        ↓
-Identify missing evidence
-        ↓
-Trace document/prerequisite dependencies
-        ↓
-Determine application readiness
-        ↓
-Find the official application route
-        ↓
-Generate the application draft
-        ↓
-Return a verifiable result
+Browser
+   ↓
+Vercel
+   ↓
+api/index.py
+   ↓
+FastAPI
+   ↓
+CivicPilot Agent System
 ```
 
-The system therefore performs a **multi-step task with external tools, state, verification, dependency-aware execution, and a concrete outcome** rather than returning a single LLM-generated answer.
+Deploy from the project root:
 
-### What "custom orchestration" means in CivicPilot
+```powershell
+vercel --prod
+```
 
-The orchestration layer is the Python control system that decides which specialized role runs, submits `ToolTask` operations to the `Scheduler`, passes results between stages, enforces validation rules, handles failures, and assembles the final report.
+Production secrets should be configured as Vercel Environment Variables.
+
+---
+
+## Why CivicPilot Is Agentic
+
+CivicPilot does more than generate a single LLM response.
+
+It:
 
 ```text
-User Goal
-   ↓
-PlannerAgent
-   ↓
-SearchPlan
-   ↓
-Scheduler
-   ├── SearchTool / FetchTool
-   ├── ModelClient
-   └── other ToolTasks
-   ↓
-ResearcherAgent
-   ↓
-Candidate Schemes
-   ↓
-VerifierAgent
-   ↓
-Eligibility + Evidence
-   ↓
-DocumentAdvisorAgent
-   ↓
-Application Readiness
-   ↓
-ReporterAgent
-   ↓
-Final Report / Draft
+Understands the user
+      ↓
+Plans what to investigate
+      ↓
+Uses external tools
+      ↓
+Observes retrieved information
+      ↓
+Verifies eligibility
+      ↓
+Finds missing evidence
+      ↓
+Traces prerequisites
+      ↓
+Determines application readiness
+      ↓
+Finds the official route
+      ↓
+Generates an application draft
 ```
 
-This custom Python layer is the orchestration framework used by the current CivicPilot implementation.
+The system therefore combines **specialized agents, tools, state, scheduling, verification and multi-step decision-making** to produce an actionable result.
+
+---
+
+## Limitations
+
+- Currently focused on Indian welfare schemes
+- Government rules and portals can change
+- Results depend on the availability and quality of authoritative sources
+- The system does not submit applications automatically
+- Application drafts require user review
+- Memory is currently session-level
+- Full runs may take several minutes because multiple tool and model calls can be required
+
+---
+
+## Security & Privacy
+
+- Do not commit `.env` or API keys
+- Use `.env.example` as the configuration template
+- Final application submission remains under the user's control
+- The current MVP does not maintain a permanent citizen profile
