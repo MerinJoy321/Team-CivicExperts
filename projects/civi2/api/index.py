@@ -1,0 +1,1 @@
+from civicpilot.web.server import app
